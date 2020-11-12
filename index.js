@@ -80,35 +80,33 @@ mikayla.eat("cake");
     - STRETCH: A car which runs out of `fuel` while driving can't drive any more distance:
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
-
-function Car() {
-  function Car(model, milesPerGallon) {
-    this.model = model;
-    this.milesPerGallon = milesPerGallon;
-    this.tank = 0;
-    this.odometer = 0;
-  }
-  
-  Car.prototype.fill = function(gallons){
-    return this.tank + gallons;
-  }
-  
-  Car.prototype.drive = function(distance){
-    return this.odometer += distance;
-    /*this.tank - (distance / this.milesPerGallon);
-    if(this.tank <= 0){
-      return `I ran out of fuel at ${this.odometer} miles!`;
-    } else{
-      return `My odometer now reads ${this.odometer} miles and I have ${this.tank} gallons of gas remaining. `
-    }*/
-  }
-  
-  const teslaModel3 = new Car ("Tesla", 132);
-  
-  teslaModel3.fill(50);
-  teslaModel3.drive(6000);
-  
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
+
+Car.prototype.fill = function(gallons){
+  return this.tank += gallons;
+}
+Car.prototype.drive = function(distance){
+  let maxMileage = this.tank * this.milesPerGallon;
+  if(distance > maxMileage){
+    return `I ran out of fuel at ${Math.round(maxMileage)} miles!`;
+  } else {
+    this.odometer += distance;
+    this.tank -= distance / this.milesPerGallon;
+    return `My odometer now reads ${this.odometer} miles and I have ${Math.round(this.tank)} gallons of gas remaining.`
+  }
+}
+
+const dodgeNeon = new Car ("Tesla", 29);
+
+dodgeNeon.fill(13);
+dodgeNeon.drive(200);
+dodgeNeon.drive(150);
+
 
 /*
   TASK 3
